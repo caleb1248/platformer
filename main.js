@@ -41,6 +41,17 @@ class End extends GameObject {
     ctx.fillRect(this.x, this.y, 20, 20);
     ctx.fillStyle = "black";
   }
+
+  didCollide = player => {
+    if (this.x == player.x) {
+      if(this.y == player.y) {
+        player.x = 0;
+        player.y = 0;
+        index++;
+        loadMap(maps[index], texts[index]);
+      }
+    }
+  }
 }
 
 class Spike extends GameObject {
@@ -73,6 +84,8 @@ class Player {
   }
 
   update() {
+    
+
     if (this.y > 400 - 20) {
       this.gravity = 0;
       this.speedY = 0;
@@ -102,22 +115,16 @@ class Player {
       this.y = 400 - 20;
     }
 
-    if (this.x == 400 - 20) {
-      this.x = 400 - 20;
-      this.speedX = 0;
-      if(this.y == 400 - 20) {
-        this.x = 0;
-        this.y = 0;
-        index++;
-        loadMap(maps[index], texts[index]);
-      }
-    }
+    
 
     ctx.clearRect(0, 0, 400, 400);
 
     map.forEach(blk => {
       if (blk instanceof Block || blk instanceof Spike || blk instanceof End) {
         blk.draw();
+      }
+      if(blk instanceof End) {
+        blk.didCollide(this);
       }
     });
 
@@ -259,6 +266,7 @@ const texts = [
   new GameText(40, 40, "Use arrow keys to move"),
   new GameText(40, 40, "Don't touch the spikes!"),
   new GameText(40, 40, "You can jump over spikes."),
+  new GameText(40, 40, "Pressing r helps you win."),
 ]
 
 
@@ -290,6 +298,13 @@ onkeydown = onkeyup = e => {
         player.y -= 2;
         break;
       }
+    
+  }
+  if(e.keyCode ==  "82"){
+    player.x = 0;
+    player.y = 0;
+    player.speedX = 0;
+    player.speedY = 0;
   }
 };
 
