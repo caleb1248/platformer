@@ -266,7 +266,7 @@ const texts = [
   new GameText(40, 40, "Use arrow keys to move"),
   new GameText(40, 40, "Don't touch the spikes!"),
   new GameText(40, 40, "You can jump over spikes."),
-  new GameText(40, 40, "Pressing r helps you win."),
+  new GameText(30, 40, "Pressing r helps you win."),
 ]
 
 
